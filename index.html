@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulace: složení české populace po dekádách</title>
+</head>
+<body>
+
+<!-- ZAČÁTEK VLOŽITELNÉHO KÓDU: do WordPressu vložte vše od <style> po </script> do bloku „Vlastní HTML“ -->
+<style>
+.ukr-sim{--us-bg:#fff;--us-card:#f4f4f1;--us-ink:#1b1b1a;--us-ink2:#5a5955;--us-line:#d9d8d2;--us-accent:#2a78d6;--us-accent-bg:#e6f0fb;--us-gray:#b9b6ad;--us-ua:#2a78d6;--us-vn:#eb6834;--us-mn:#6250d6;
+font-family:inherit;color:var(--us-ink);max-width:760px;margin:0 auto;box-sizing:border-box;line-height:1.5}
+@media (prefers-color-scheme:dark){.ukr-sim{--us-bg:#1b1b1a;--us-card:#262624;--us-ink:#f0efec;--us-ink2:#c3c2b7;--us-line:#3a3a37;--us-accent:#3987e5;--us-accent-bg:#1d3552;--us-gray:#6f6d66;--us-ua:#3987e5;--us-vn:#d95926;--us-mn:#9085e9}}
+.ukr-sim *{box-sizing:border-box}
+.ukr-sim h2{font-size:1.35rem;margin:0 0 .35rem;font-weight:600}
+.ukr-sim .us-lead{margin:0 0 1.1rem;color:var(--us-ink2);font-size:.95rem}
+.ukr-sim .us-group{margin:0 0 .9rem;position:relative}
+.ukr-sim .us-label{display:flex;align-items:center;gap:.4rem;font-size:.85rem;color:var(--us-ink2);margin:0 0 .35rem}
+.ukr-sim .us-btns{display:flex;flex-wrap:wrap;gap:.4rem}
+.ukr-sim button{font:inherit;font-size:.88rem;color:var(--us-ink);background:transparent;border:1px solid var(--us-line);border-radius:8px;padding:.45rem .8rem;min-height:40px;cursor:pointer}
+.ukr-sim button:hover{border-color:var(--us-ink2)}
+.ukr-sim button:focus-visible{outline:2px solid var(--us-accent);outline-offset:2px}
+.ukr-sim .us-btns button[aria-pressed="true"]{background:var(--us-accent-bg);border-color:var(--us-accent);color:var(--us-ink)}
+.ukr-sim .us-i{position:relative;width:20px;height:20px;min-height:0;padding:0;border-radius:50%;font-size:.72rem;font-weight:600;line-height:1;display:inline-flex;align-items:center;justify-content:center;color:var(--us-ink2);border-color:var(--us-ink2)}
+.ukr-sim .us-i::before{content:"";position:absolute;inset:-12px}
+.ukr-sim .us-i[aria-expanded="true"]{background:var(--us-accent-bg);border-color:var(--us-accent);color:var(--us-ink)}
+.ukr-sim .us-tip{display:none;position:absolute;left:0;right:0;top:1.7rem;z-index:10;background:var(--us-bg);border:1px solid var(--us-ink2);border-radius:10px;padding:.65rem .8rem;font-size:.8rem;line-height:1.45;color:var(--us-ink)}
+.ukr-sim .us-group.us-open .us-tip{display:block}
+.ukr-sim .us-tip p{margin:0 0 .45rem}
+.ukr-sim .us-tip p:last-child{margin:0;color:var(--us-ink2)}
+.ukr-sim .us-tip b{font-weight:600}
+.ukr-sim .us-legend{display:flex;flex-wrap:wrap;gap:.35rem 1.1rem;margin:1.2rem 0 .8rem;font-size:.82rem;color:var(--us-ink2)}
+.ukr-sim .us-legend span{display:flex;align-items:center;gap:.35rem}
+.ukr-sim .us-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.ukr-sim .us-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
+@media (min-width:640px){.ukr-sim .us-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.ukr-sim .us-panel{background:var(--us-card);border-radius:12px;padding:.7rem}
+.ukr-sim .us-head{display:flex;justify-content:space-between;align-items:baseline;margin:0 0 .4rem}
+.ukr-sim .us-year{font-weight:600;font-size:1rem}
+.ukr-sim .us-total{font-size:.8rem;color:var(--us-ink2)}
+.ukr-sim .us-panel svg{display:block;width:100%;height:auto}
+.ukr-sim .us-stats{font-size:.8rem;color:var(--us-ink2);margin-top:.45rem}
+.ukr-sim details{margin-top:1.2rem;font-size:.88rem;color:var(--us-ink2)}
+.ukr-sim summary{cursor:pointer;color:var(--us-ink)}
+.ukr-sim details ul{margin:.5rem 0 0;padding-left:1.2rem}
+.ukr-sim details li{margin:.25rem 0}
+.ukr-sim .us-note{margin-top:.8rem;font-size:.8rem;color:var(--us-ink2)}
+</style>
+
+<div class="ukr-sim" id="ukr-sim">
+  <h2>Česko po dekádách: modelový scénář</h2>
+  <p class="us-lead">Model vychází z dnešních údajů: 398 360 držitelů dočasné ochrany (Eurostat, 31. 8. 2026) a zhruba 200 tisíc Ukrajinců s jiným pobytem. Každá tečka představuje 1 % obyvatel. U každého parametru najdete ikonu „i“ s vysvětlením a zdrojem údajů.</p>
+
+  <div class="us-group" data-key="w">
+    <span class="us-label">Další uprchlíci
+      <button type="button" class="us-i" aria-expanded="false" aria-label="Vysvětlení: Další uprchlíci">i</button></span>
+    <div class="us-tip" role="tooltip">
+      <p><b>Co to znamená:</b> kolik lidí by přišlo navíc k dnešním držitelům dočasné ochrany. „Hned“ přidá 500 tisíc na začátku, „po 2036“ dalších 500 tisíc v následující dekádě a „každou dekádu“ po 500 tisících v letech 2036 až 2066. „Žádní“ počítá jen se současným stavem.</p>
+      <p><b>Údaje:</b> podle Eurostatu mělo koncem srpna 2026 dočasnou ochranu 398 360 lidí v Česku (v červenci 395 225) a 4,43 milionu v celé EU. Od srpna 2026 se nově přiznává jen těm, kdo splnili vojenské povinnosti podle ukrajinského práva.</p>
+      <p>Zdroje: Eurostat (údaje k 31. 8. 2026), rada EU, rozhodnutí 2026/1912.</p>
+    </div>
+    <div class="us-btns">
+      <button type="button" data-v="none">Žádní</button>
+      <button type="button" data-v="now">Hned +500 tis.</button>
+      <button type="button" data-v="later">Po 2036 +500 tis.</button>
+      <button type="button" data-v="repeat">+500 tis. každou dekádu</button>
+    </div>
+  </div>
+
+  <div class="us-group" data-key="r">
+    <span class="us-label">Kolik uprchlíků se vrátí
+      <button type="button" class="us-i" aria-expanded="false" aria-label="Vysvětlení: Kolik uprchlíků se vrátí">i</button></span>
+    <div class="us-tip" role="tooltip">
+      <p><b>Co to znamená:</b> podíl lidí z každé vlny, kteří se v první dekádě vrátí na Ukrajinu nebo odejdou jinam. Zbývající lidé zůstanou v Česku.</p>
+      <p><b>Údaje:</b> od března 2022 vydaly státy EU 7,1 milionu rozhodnutí o dočasné ochraně. Zhruba 2,7 milionu z nich už neplatí, protože lidé se vrátili, odešli jinam, přešli na jiný status nebo byli odhlášeni. V Česku počet držitelů ochrany v srpnu 2026 dál vzrostl o 3 135. Skutečný podíl návratů se dá odhadnout jen hrubě.</p>
+      <p>Zdroj: Eurostat, shrnutí Euromaidan Press (12. 8. 2026).</p>
+    </div>
+    <div class="us-btns">
+      <button type="button" data-v="0.6">60 %</button>
+      <button type="button" data-v="0.4">40 %</button>
+      <button type="button" data-v="0.15">15 %</button>
+    </div>
+  </div>
+
+  <div class="us-group" data-key="p">
+    <span class="us-label">Z těch, kdo zůstanou, splní podmínky pobytu
+      <button type="button" class="us-i" aria-expanded="false" aria-label="Vysvětlení: Podmínky pobytu">i</button></span>
+    <div class="us-tip" role="tooltip">
+      <p><b>Co to znamená:</b> podíl zůstávajících, kteří po skončení dočasné ochrany získají jiný, stabilnější pobyt. Kdo podmínky nesplní, z modelu odchází.</p>
+      <p><b>Údaje:</b> zvláštní dlouhodobý pobyt vyžaduje aspoň 2 roky pobytu v Česku, ekonomickou soběstačnost, bezúhonnost a zajištěné bydlení. Loni projevilo zájem asi 82 tisíc lidí a podmínky splnilo kolem 16 tisíc (zhruba 20 %). V dubnu 2026 projevilo zájem 56 500 lidí. Trvalý pobyt vyžaduje 5 let pobytu a zkoušku z češtiny na úrovni A2.</p>
+      <p>Zdroje: ministerstvo vnitra ČR (11. 5. 2026), EUAA, cestina-pro-cizince.cz.</p>
+    </div>
+    <div class="us-btns">
+      <button type="button" data-v="0.2">20 %</button>
+      <button type="button" data-v="0.5">50 %</button>
+      <button type="button" data-v="1">100 %</button>
+    </div>
+  </div>
+
+  <div class="us-group" data-key="e">
+    <span class="us-label">Dočasná ochrana skončí
+      <button type="button" class="us-i" aria-expanded="false" aria-label="Vysvětlení: Konec dočasné ochrany">i</button></span>
+    <div class="us-tip" role="tooltip">
+      <p><b>Co to znamená:</b> rok, od kterého se uplatní filtr podmínek pobytu. Do té doby lidé zůstávají v dočasné ochraně. Modelové snímky jsou po desetiletích, takže rok 2028 se projeví až ve snímku 2036.</p>
+      <p><b>Údaje:</b> rada EU prodloužila ochranu do 4. března 2028. Po skončení války se nic automaticky nemění, o ukončení rozhoduje rada, až to podmínky na Ukrajině dovolí. EU zatím připravuje jen postupný přechod na běžné pobytové tituly, ne zvláštní status pro Ukrajince. Roky 2036 a 2046 jsou hypotetické.</p>
+      <p>Zdroje: rada EU, rozhodnutí 2026/1912 (30. 7. 2026), EUAA.</p>
+    </div>
+    <div class="us-btns">
+      <button type="button" data-v="2028">2028</button>
+      <button type="button" data-v="2036">2036</button>
+      <button type="button" data-v="2046">2046</button>
+    </div>
+  </div>
+
+  <div class="us-group" data-key="f">
+    <span class="us-label">Sloučení rodin: příbuzní na jednoho žadatele
+      <button type="button" class="us-i" aria-expanded="false" aria-label="Vysvětlení: Sloučení rodin">i</button></span>
+    <div class="us-tip" role="tooltip">
+      <p><b>Co to znamená:</b> kolik příbuzných (1, 2 nebo 3) přijede za jedním člověkem, který získá stabilní pobyt. Model počítá, že rodinu sloučí jen čtvrtina oprávněných (včetně stávající komunity), což je odhad autora, ne naměřená hodnota.</p>
+      <p><b>Údaje:</b> sloučení rodiny je dlouhodobý pobyt vázaný na „nositele oprávnění“, například držitele zaměstnanecké karty po 6 měsících pobytu nebo modré karty. Žadatel dokládá příbuzenský vztah a příjem rodiny nejméně ve výši součtu životních minim.</p>
+      <p>Zdroje: ministerstvo zahraničních věcí ČR, ministerstvo vnitra ČR.</p>
+    </div>
+    <div class="us-btns">
+      <button type="button" data-v="0">Žádní</button>
+      <button type="button" data-v="1">1</button>
+      <button type="button" data-v="2">2</button>
+      <button type="button" data-v="3">3</button>
+    </div>
+  </div>
+
+  <div class="us-legend">
+    <span><i class="us-dot" style="background:var(--us-gray)"></i>ostatní obyvatelé</span>
+    <span><i class="us-dot" style="background:var(--us-ua)"></i>ukrajinská komunita</span>
+    <span><i class="us-dot" style="background:var(--us-vn)"></i>vietnamská komunita</span>
+    <span><i class="us-dot" style="background:var(--us-mn)"></i>ostatní menšiny</span>
+  </div>
+
+  <div class="us-grid" id="us-grid" aria-live="polite"></div>
+
+  <details>
+    <summary>Jak model funguje a odkud jsou údaje</summary>
+    <ul>
+      <li>Výchozí stav v roce 2026: 398 360 držitelů dočasné ochrany (Eurostat, 31. 8. 2026) a zhruba 200 tisíc Ukrajinců s jiným, tedy dlouhodobým nebo trvalým pobytem. Druhé číslo je odhad: ministerstvo vnitra uvádělo koncem září 2025 asi 594 tisíc legálně pobývajících Ukrajinců, z nichž asi 397 tisíc mělo dočasnou ochranu. Stávající komunita se nevrací ani neprochází filtrem pobytu, jen pomalu ubývá o 7 % za dekádu a přibývají její potomci.</li>
+      <li>Ostatní obyvatelé začínají na 9,65 milionu a ubývají o 3,5 % za dekádu. Celkově model začíná na 10,9 milionu, což odpovídá součtu obyvatel a uprchlíků (zhruba 10,8 milionu podle dat ČSÚ a ministerstva vnitra).</li>
+      <li>Vietnamská komunita začíná na 100 tisících a roste o 6 % za dekádu. Podle ČSÚ žilo koncem roku 2024 v Česku 69 tisíc občanů Vietnamu, zbytek je odhad potomků narozených v Česku a občanů s českým občanstvím.</li>
+      <li>Ostatní menšiny začínají na 550 tisících a rostou o 10 % za dekádu. Jde o odhad: počet cizinců (asi 1,07 milionu na konci března 2025 podle ministerstva vnitra) bez Ukrajinců a Vietnamců, doplněný o tradiční menšiny.</li>
+      <li>Návraty proběhnou v první dekádě, zbylí lidé z první generace pak ubývají o 7 % za dekádu. Potomci narození v Česku přibývají podle počtu usazených rodin a dál mírně rostou. Smíšené rodiny model nepočítá. Sloučení rodin se týká i stávající komunity.</li>
+    </ul>
+  </details>
+  <p class="us-note">Jde o ilustraci jednoho zjednodušeného scénáře, ne o předpověď. Skutečný vývoj závisí na délce války, politice dočasné ochrany a integraci. Údaje jsou z let 2024 až 2026 a mění se, před použitím je ověřte na webu ministerstva vnitra a ČSÚ.</p>
+</div>
+
+<script>
+(function () {
+  var root = document.getElementById('ukr-sim');
+  var years = [2026, 2036, 2046, 2056, 2066, 2076];
+  var state = { w: 'none', r: '0.4', p: '0.5', e: '2028', f: '1' };
+  var TP = 0.398, EXIST = 0.20, SPONSOR = 0.25;
+
+  function wave(size, a, r, P, E, F) {
+    var out = [], g1 = 0, g2 = 0, done = false;
+    for (var k = 0; k < years.length; k++) {
+      if (k < a) { out.push(0); continue; }
+      if (k === a) { g1 = size; }
+      else if (k === a + 1) { g1 = size * (1 - r); }
+      else { g1 = g1 * 0.93; }
+      if (k > a) { g2 = g2 * 1.05 + 0.15 * g1; }
+      if (k > a && !done && years[k] >= E) {
+        g1 *= P; g2 *= P;
+        g1 += g1 * SPONSOR * F;
+        done = true;
+      }
+      out.push(g1 + g2);
+    }
+    return out;
+  }
+
+  function existing(F) {
+    var out = [], g1 = EXIST, g2 = 0;
+    for (var k = 0; k < years.length; k++) {
+      if (k > 0) {
+        g1 *= 0.93;
+        g2 = g2 * 1.05 + 0.15 * g1;
+        if (k === 1) { g1 += g1 * SPONSOR * F; }
+      }
+      out.push(g1 + g2);
+    }
+    return out;
+  }
+
+  function model() {
+    var r = parseFloat(state.r), P = parseFloat(state.p),
+        E = parseInt(state.e, 10), F = parseInt(state.f, 10), W = state.w;
+    var base = wave(TP + (W === 'now' ? 0.5 : 0), 0, r, P, E, F);
+    var ex = existing(F);
+    var extra = [];
+    if (W === 'later') extra = [1];
+    if (W === 'repeat') extra = [1, 2, 3, 4];
+    var add = years.map(function () { return 0; });
+    extra.forEach(function (a) {
+      var w = wave(0.5, a, r, P, E, F);
+      for (var k = 0; k < add.length; k++) add[k] += w[k];
+    });
+    return years.map(function (y, k) {
+      return {
+        y: y,
+        u: base[k] + add[k] + ex[k],
+        v: 0.10 * Math.pow(1.06, k),
+        m: 0.55 * Math.pow(1.10, k),
+        o: 9.65 * Math.pow(0.965, k)
+      };
+    });
+  }
+
+  function fmt(x) { return x.toFixed(1).replace('.', ','); }
+
+  function dots(pu, pv, pm) {
+    var nu = Math.round(pu), nv = Math.max(1, Math.round(pv)), nm = Math.round(pm);
+    var s = '<svg viewBox="0 0 100 100" role="img" aria-label="Sto teček, každá představuje jedno procento obyvatel">';
+    for (var i = 0; i < 100; i++) {
+      var c = i < nu ? 'var(--us-ua)' : (i < nu + nv ? 'var(--us-vn)' : (i < nu + nv + nm ? 'var(--us-mn)' : 'var(--us-gray)'));
+      s += '<circle cx="' + ((i % 10) * 10 + 5) + '" cy="' + (Math.floor(i / 10) * 10 + 5) + '" r="3.6" fill="' + c + '"/>';
+    }
+    return s + '</svg>';
+  }
+
+  function draw() {
+    var h = '';
+    model().forEach(function (x) {
+      var t = x.u + x.v + x.m + x.o;
+      var pu = x.u / t * 100, pv = x.v / t * 100, pm = x.m / t * 100;
+      h += '<div class="us-panel">'
+        + '<div class="us-head"><span class="us-year">' + x.y + '</span><span class="us-total">' + fmt(t) + ' mil.</span></div>'
+        + dots(pu, pv, pm)
+        + '<div class="us-stats">ukrajinská: ' + fmt(pu) + ' %<br>vietnamská: ' + fmt(pv) + ' %<br>ostatní menšiny: ' + fmt(pm) + ' %</div>'
+        + '</div>';
+    });
+    root.querySelector('#us-grid').innerHTML = h;
+  }
+
+  function mark() {
+    root.querySelectorAll('.us-group').forEach(function (g) {
+      var key = g.getAttribute('data-key');
+      g.querySelectorAll('.us-btns button').forEach(function (b) {
+        b.setAttribute('aria-pressed', b.getAttribute('data-v') === state[key] ? 'true' : 'false');
+      });
+    });
+  }
+
+  function closeAll(except) {
+    root.querySelectorAll('.us-group.us-open').forEach(function (g) {
+      if (g !== except) {
+        g.classList.remove('us-open');
+        g.querySelector('.us-i').setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  function setOpen(g, open) {
+    closeAll(open ? g : null);
+    g.classList.toggle('us-open', open);
+    g.querySelector('.us-i').setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  root.querySelectorAll('.us-group').forEach(function (g) {
+    var key = g.getAttribute('data-key');
+    var icon = g.querySelector('.us-i');
+    var pinned = false;
+
+    g.querySelectorAll('.us-btns button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        state[key] = b.getAttribute('data-v');
+        mark();
+        draw();
+      });
+    });
+
+    icon.addEventListener('mouseenter', function () { setOpen(g, true); });
+    icon.addEventListener('mouseleave', function () { if (!pinned) setOpen(g, false); });
+    icon.addEventListener('focus', function () { setOpen(g, true); });
+    icon.addEventListener('blur', function () { if (!pinned) setOpen(g, false); });
+    icon.addEventListener('click', function (e) {
+      e.stopPropagation();
+      pinned = !(pinned && g.classList.contains('us-open'));
+      setOpen(g, pinned);
+    });
+    g._unpin = function () { pinned = false; };
+  });
+
+  function dismiss() {
+    root.querySelectorAll('.us-group').forEach(function (g) { if (g._unpin) g._unpin(); });
+    closeAll(null);
+  }
+  document.addEventListener('click', function (e) {
+    if (!root.contains(e.target) || !e.target.closest('.us-tip')) {
+      if (!e.target.closest || !e.target.closest('.us-i')) dismiss();
+    }
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') dismiss(); });
+
+  mark();
+  draw();
+})();
+</script>
+<!-- KONEC VLOŽITELNÉHO KÓDU -->
+
+</body>
+</html>
